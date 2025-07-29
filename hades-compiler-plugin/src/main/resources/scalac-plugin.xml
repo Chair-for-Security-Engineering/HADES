@@ -1,0 +1,4 @@
+<plugin>
+    <name>hades-naming-plugin</name>
+    <classname>hades.namingplugin.NamingPlugin</classname>
+</plugin>

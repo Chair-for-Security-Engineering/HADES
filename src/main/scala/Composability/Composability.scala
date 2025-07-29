@@ -1,0 +1,6 @@
+package Composability
+
+trait ComposabilityNotion
+object NI extends ComposabilityNotion
+object SNI extends ComposabilityNotion
+object PINI extends ComposabilityNotion

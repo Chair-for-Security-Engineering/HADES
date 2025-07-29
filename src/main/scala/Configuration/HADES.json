@@ -1,0 +1,117 @@
+{
+  "General" :
+  {
+    "Cell-library" : "45nm",
+    "Reset-Type" : "synchronous",
+    "Mode" : "verilog",
+    "Verbose" : 3,
+    "Name-Prefix" : "",
+    "Separate-Folders" : true,
+    "Fixed-Seed" : true,
+    "Local-Optimization-Depth" : 0,
+    "Tasks" :
+    {
+      "Explore"   : true,
+      "Generate"  : true,
+      "Simulate"  : false
+    },
+    "Top-X" : 2,
+    "Explore-Security" : false,
+    "Local-Search" :
+    {
+      "Enable": false,
+      "Initial-Sample-Size" : 50,
+      "Runs" : 1
+    },
+    "Enable-Thresholds" : false,
+    "Thresholds" :
+    [
+      {
+        "Target" : "Latency",
+        "Value" : 500
+      },
+      {
+        "Target" : "Randomness",
+        "Value" : 4000
+      },
+      {
+        "Target" : "Area",
+        "Value" : 400000
+      }
+    ],
+    "Optimization" : 
+    [
+      {
+        "Area" : 
+        {
+          "Enable" : true,
+          "Secondary" : "Latency"
+        }
+      },
+      {
+        "Latency" : 
+        {
+          "Enable" : true,
+          "Secondary" : "Area"
+        }
+      },
+      {
+        "Randomness" : 
+        {
+          "Enable" : true,
+          "Secondary" : "Area"
+        }
+      },
+      {
+        "Reload" :
+        {
+          "Enable" : false,
+          "Secondary" : "Area"
+        }
+      },
+      {
+        "ATP" : 
+        {
+          "Enable" : true,
+          "Secondary" : "Latency"
+        }
+      },
+      {
+        "ATRP" : 
+        {
+          "Enable" : true,
+          "Secondary" : "Area"
+        }
+      }
+    ],
+    "Visualization" : 
+    {
+      "Enable"  : false,
+      "Path"    : "",
+      "Full"    : false
+    },
+    "Gadget-Config" : 
+    {
+      "Enable"      : false,
+      "LatencyAND"  : 0,
+      "LatencyXOR"  : 0,
+      "LatencyNOT"  : 0
+    }
+  },
+  "Side-Channel" :
+  {
+    "Enable"  : true,
+    "Order"   : 1
+  },
+  "Fault-Injection" :
+  {
+    "Enable"  : false,
+    "Order"   : 1
+  },
+  "Combined" :
+  {
+    "Enable"      : false,
+    "Sca-order"   : 1,
+    "Fault-order" : 1
+  }
+}

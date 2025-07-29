@@ -1,0 +1,21 @@
+*.class
+*.log
+*.bak
+
+#sbt specific
+target
+project/boot/
+project/plugins/project
+project/project
+project/metals.sbt
+tmp
+
+#IDE specific
+.idea
+.bsp
+
+#Hardware files
+src/main/Hardware
+
+#Simulation files
+simWorkspace/
