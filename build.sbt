@@ -1,4 +1,4 @@
-ThisBuild / scalaVersion := "2.13.10"
+ThisBuild / scalaVersion := "2.13.15"
 ThisBuild / fork := true
 
 val spinalVersion = "1.8.0"
