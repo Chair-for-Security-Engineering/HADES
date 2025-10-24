@@ -25,7 +25,7 @@ If you are using nix, simply start the nix shell by `nix-shell` (you might need 
 
 If you are not using nix, open a shell in the root directory of this project and start the Scala Build Tool by running `sbt`. 
 
-Once sbt is started, you can perform the Design Space Exploration by entering `runMain HADES` in the shell. When executed the first time, the initial compilation can take a few minutes, but subsequent executions will be significantly faster.
+Once sbt is started, you can perform the Design Space Exploration by entering `runMain HADES` in the shell. When executed for the first time, the initial compilation can take a few minutes, but subsequent executions will be significantly faster.
 
 ### 4.1 Configuring the Tool
 Our tool can be configured via a configuration file written in JSON. All configuration files are located in the directory `src/main/scala/Configuration`. We refer to the following overview for a description of the existing settings and their functionality:
@@ -166,8 +166,49 @@ The generated designs can be found in the folders `src/main/Hardware/VHDL` or `s
 
 The selected configuration as well as the resulting performance metrics are also included as a header comment within the generated output HDL files.
 
-### 4.5 Simulated Waveforms
-If simulation was performed, the waveforms are located in `simWorkspace/`.
+### 4.5 Running Custom Simulations
+> **Note:**  In order to run simulations, there are some constraints on a specific set of configuration options within `HADES.json`.
+> - `General/Mode` needs to be set to `verilog`
+> - `General/Tasks/Simulate` needs to be set to `true`
+> - `General/Gadget-Config/Enable` needs to be set to `true`
+> - `Side-Channel/Enable` needs to be set to `false`
+> 
+> The fact that simulation with side-channel protections enabled is currently not possible is a known limitation which will be addressed in a future release.
+
+Testbenches for the adder templates and the AES as well as some of its sub-templates (S-box, KeySchedule) can be found in `src/test/scala`. To execute all tests, simply run `test` within the SBT shell. It is also possible to only run a single test suite using the `testOnly` command, e.g., `testOnly AdderTest` whithin the SBT shell. 
+
+We also support running arbitrary custom simulations for all templates. In order to do this, simply pass a simulation function (which defines input signals, how many clock cycles to simulate, ...) as the second argument to the `HADES` class.
+
+For our Keccak template, such a simulation function could look as follows:
+```scala
+def mySimFunction(dut: Component): Unit = {
+    val top = dut.asInstanceOf[Keccak]
+    top.cd.forkStimulus(10)
+
+    // Set inputs
+    for (i <- 0 until 5) {
+        for (j <- 0 until 5) {
+            top.io.stateIn(i)(j) #= 42
+        }
+    }
+    top.fsm.enable #= false
+
+    // Start execution
+    top.cd.waitSampling(1)
+    top.fsm.enable #= true
+    top.cd.waitSampling(1)
+    top.fsm.enable #= false
+
+    // Wait for execution to finish
+    top.cd.waitSampling(top.latency)
+}
+```
+
+To execute the simulation, replace the default HADES call within the main entrypoint in `HADES.scala` with:
+
+```scala
+HADES("HADES")(new Keccak(64))(mySimFunction).apply()
+```
 
 ## Acknowledgements
 - HADES Logo by [Anna Guinet](https://www.annagui.net/), used under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).

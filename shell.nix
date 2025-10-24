@@ -1,15 +1,16 @@
 let
-  nixpkgs = fetchTarball "https://github.com/NixOS/nixpkgs/tarball/nixos-24.05";
-  pkgs = import nixpkgs { config = {}; overlays = []; };
+  nixpkgs = fetchTarball "https://github.com/NixOS/nixpkgs/tarball/nixos-25.05";
+  pkgs = import nixpkgs { config = {}; };
 in
 
 pkgs.mkShellNoCC {
   packages = with pkgs; [
-    gcc
+    gcc13
     jdk
     scala_2_13
     sbt
     verilator
+    zlib
   ];
 
   greeting = "Welcome to the HADES nix-shell";

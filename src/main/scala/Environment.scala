@@ -92,7 +92,7 @@ class Environment[T <: Template](config : Config)(gen: => T) {
 		phases += new PhaseCollectAndNameEnum(phaseContext)
 
 		phases += new PhaseCheckIoBundle()
-		phases += new PhaseCheckHiearchy()
+		phases += new PhaseCheckHierarchy()
 		phases += new PhaseAnalog()
 		phases += new PhaseNextifyReg()
 		phases += new PhaseRemoveUselessStuff(false, false)
@@ -163,7 +163,7 @@ class Environment[T <: Template](config : Config)(gen: => T) {
 		phases += new PhaseCollectAndNameEnum(phaseContext)
 
 		phases += new PhaseCheckIoBundle()
-		phases += new PhaseCheckHiearchy()
+		phases += new PhaseCheckHierarchy()
 		phases += new PhaseAnalog()
 		phases += new PhaseNextifyReg()
 
